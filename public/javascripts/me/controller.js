@@ -4,10 +4,19 @@
 	angular.module('App.me.controller', [])
 		.controller('MeController', MeController);
 
-	function MeController($scope, Auth){
-		console.log('Me');
+	function MeController($scope, $localStorage, $location, $http, toastr, Auth){
 		$scope.user = Auth.getUserFromToken();
-		console.log($scope.user);
+		var vm = this;
+		toastr.clear();
+
+		$http.get('/api/videos').then(function(data){
+			console.log(data);
+		});
+
+		vm.logout = function(){
+			$localStorage.$reset();
+			$location.path('/login');
+		}
 	}
 
 })(angular);

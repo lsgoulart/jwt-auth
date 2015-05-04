@@ -45,7 +45,7 @@ app.use(function(req, res, next) {
 app.use('/api', expressJwt({
     secret: SECRET,
     getToken: function fromHeaderOrQuerystring (req) {
-        var token = (req.body && req.body.access_token) || (req.query && req.query.access_token) || req.headers['x-access-token'];
+        var token = (req.body && req.body.access_token) || (req.query && req.query.access_token) || req.headers['authorization'];
         if(token) return token;
         else return null;
     }

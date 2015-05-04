@@ -27,7 +27,9 @@
 					return $http.post(baseUrl + '/login', user);
 				},
 
-				logout: function(){},
+				logout: function(){
+
+				},
 
 				register: function(user){
 					return $http.post(baseUrl + '/signup', user);
@@ -54,7 +56,7 @@
 		        request: function (config) {
 		            config.headers = config.headers || {};
 		            if ($localStorage.token) {
-		                config.headers.Authorization = 'Bearer ' + $localStorage.token;
+		                config.headers.Authorization = $localStorage.token;
 		            }
 		            return config;
 		        },

@@ -30,12 +30,6 @@
 					});
 			}
 		};
-
-		vm.logout = function(){
-			AuthenticationService.isLogged = false;
-			$localStorage.$reset();
-			$location.path('/login');
-		}
 	}
 
 })(angular);
