@@ -2,6 +2,7 @@ var express = require('express');
 var router 	= express.Router();
 var User 	= require('../models/User');
 var jwt    	= require('jsonwebtoken');
+var _		= require('lodash');
 var expressJwt = require('express-jwt');
 
 router.post('/login', function(req, res){
@@ -9,21 +10,28 @@ router.post('/login', function(req, res){
 		if(err){
 			res.json({
 				type: false,
-				data: 'Error occured: ' + err
+				data: 'Ocorreu um erro: ' + err
 			});
 			return err;
 		}
 
-		if(!user.validPassword(req.body.password)){
-			res.json({
-				type: false,
-				data: 'Oops! Incorrect password',
-			});
+		if(user){
+			if(!user.validPassword(req.body.password)){
+				res.json({
+					type: false,
+					data: 'Oops! Senha incorreta',
+				});
+			} else {
+				res.json({
+					type: true,
+					data: user,
+					token: user.generateToken(user)
+				});
+			}
 		} else {
 			res.json({
-				type: true,
-				data: user,
-				token: user.generateToken(user)
+				type: false,
+				data: 'Usuário não cadastrado!'
 			});
 		}
 	});
@@ -34,14 +42,14 @@ router.post('/signup', function(req, res){
 	if(!req.body.email){
 		res.json({
 			type: false,
-			data: 'You must specify your e-mail'
+			data: 'Voce precisa nos dizer seu e-mail!'
 		});
 
 		return;
 	} else if(!req.body.password){
 		res.json({
 			data: false,
-			data: 'You must choose a password'
+			data: 'Voce deve escolher uma senha'
 		});
 
 		return;
@@ -51,7 +59,7 @@ router.post('/signup', function(req, res){
 		if(err){
 			res.json({
 				type: false,
-				data: 'Error occured: ' + err
+				data: 'Ocorreu um erro: ' + err
 			});
 			return err;
 		}
@@ -59,10 +67,11 @@ router.post('/signup', function(req, res){
 		if(user){
 			res.json({
                 type: false,
-                data: "User already exists!"
+                data: "Parece que este e-mail ja está cadastrado em nosso sistema"
             });
 		} else {
 			var newUser = new User();
+			newUser.username = req.body.username,
 			newUser.email = req.body.email,
 			newUser.password = newUser.generateHash(req.body.password);
 			//newUser.token = newUser.generateToken(newUser);
@@ -71,7 +80,7 @@ router.post('/signup', function(req, res){
 				if(err){
 					res.json({
 						type: false,
-						data: 'Error occured on save data'
+						data: 'Ocorreu um erro ao salvar suas informações!'
 					});
 
 					return err;

@@ -1,1 +1,28 @@
-<h1>Login</h1>
+<div class="container">
+	<button class="btn btn-warning" ng-click="vm.logout();">Logout</button>
+
+    <div class="row">
+		<div class="col-md-4 col-md-offset-4">
+    		<div class="panel panel-default">
+			  	<div class="panel-heading">
+			    	<h3 class="panel-title">Login</h3>
+			 	</div>
+			  	<div class="panel-body">
+			    	<form accept-charset="UTF-8" role="form">
+	                    <fieldset>
+				    	  	<div class="form-group">
+				    		    <input class="form-control" placeholder="E-mail" ng-model="login.email" name="email" type="text">
+				    		</div>
+				    		<div class="form-group">
+				    			<input class="form-control" placeholder="Password" ng-model="login.password" name="password" type="password" value="">
+				    		</div>
+
+				    		<input class="btn btn-success" ng-click="vm.login();" type="submit" value="Login">
+			    			<a href="/register">Ou registre-se aqui</a>
+				    	</fieldset>
+			      	</form>
+			    </div>
+			</div>
+		</div>
+	</div>
+</div>
