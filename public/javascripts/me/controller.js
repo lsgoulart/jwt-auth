@@ -7,7 +7,6 @@
 	function MeController($scope, $localStorage, $location, $http, toastr, Auth){
 		$scope.user = Auth.getUserFromToken();
 		var vm = this;
-		toastr.clear();
 
 		$http.get('/api/videos').then(function(data){
 			console.log(data);

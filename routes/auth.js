@@ -22,10 +22,13 @@ router.post('/login', function(req, res){
 					data: 'Oops! Senha incorreta',
 				});
 			} else {
+				var userObj = user.toObject();
+				delete userObj.password;
+
 				res.json({
 					type: true,
-					data: user,
-					token: user.generateToken(user)
+					data: userObj,
+					token: user.generateToken(userObj)
 				});
 			}
 		} else {
@@ -86,10 +89,13 @@ router.post('/signup', function(req, res){
 					return err;
 				}
 
+				var userObj = user.toObject();
+				delete userObj.password;
+
 				res.json({
 					type: true,
-					data: user,
-					token: user.generateToken(user)
+					data: userObj,
+					token: user.generateToken(userObj)
 				});
 			});
 		}
